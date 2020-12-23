@@ -2,13 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lab 8</title>
-    <script src="script.js"></script>
+    <title>Frontend Task №9</title>
 </head>
 <body>
-<div id="container"></div>
-<button onclick="makeElement()">Добавить элемент</button><br/>
-<button onclick="saveElements()">Сохранить</button>
-<div id="JSON"></div>
+<div id="wracked">
+    <div>
+        <input type="text">
+        <input type="text">
+        <button type="button" onclick="up(this)">&#8593</button>
+        <button type="button" onclick="down(this)">&#8595</button>
+        <button type="button"
+                onclick="this.parentNode.remove();">x
+        </button>
+    </div>
+</div>
+<button type="button" class="item" onclick="create()">Добавить элемент</button>
+<br>
+<button type="button" class="item" onclick="save()">Cохранить</button>
+<p id="output" style="display: none"></p>
+<script src="script.js"></script>
 </body>
 </html>
