@@ -1,43 +1,52 @@
-function makeElement(){
-    let div = document.createElement("div");
-
-    let firstInput = document.createElement("input");
-    firstInput.classList.add("first-input");
-    div.append(firstInput);
-
-    let secondInput = document.createElement("input");
-    secondInput.classList.add("second-input");
-    div.append(secondInput);
-
-    let upButton = document.createElement("button");
-    upButton.textContent = "↑";
-    upButton.onclick = () => {
-        if(div.previousElementSibling !== null) div.previousElementSibling.before(div);
-    };
-    div.append(upButton);
-
-    let downButton = document.createElement("button");
-    downButton.textContent = "↓";
-    downButton.onclick = () => {
-        if(div.nextElementSibling !== null) div.nextElementSibling.after(div);
-    };
-    div.append(downButton);
-
-    let deleteButton = document.createElement("button");
-    deleteButton.textContent = "X";
-    deleteButton.onclick = () => div.remove();
-    div.append(deleteButton);
-
-    document.getElementById("container").append(div);
+function create() {
+    document.getElementById('wracked').insertAdjacentHTML('beforeend', `<div>
+        <input type="text">
+        <input type="text">
+        <button type="button" onclick="up(this)">&#8593</button>
+        <button type="button" onclick="down(this)">&#8595</button>
+        <button type="button"
+                onclick="this.parentNode.remove();">x
+        </button>
+    </div>`)
 }
 
-function saveElements() {
-    let container = document.getElementById("container");
-    let obj = {};
-    for(let elem of container.children){
-        let firstInput = elem.getElementsByClassName("first-input")[0];
-        let secondInput = elem.getElementsByClassName("second-input")[0];
-        obj[firstInput.value] = secondInput.value;
+function up(e) {
+    const el = e.parentNode;
+    const cl = el.parentNode;
+    const childs = cl.children;
+    for (let int = 0; int < childs.length; int++) {
+        if (childs[int] === el && int !== 0) {
+            cl.insertBefore(el, childs[int - 1]);
+            break;
+        }
     }
-    document.getElementById("JSON").innerText = JSON.stringify(obj);
+}
+
+function down(e) {
+    const el = e.parentNode;
+    const cl = el.parentNode;
+    const childs = cl.children;
+    for (let int = 0; int < childs.length; int++) {
+        if (childs[int] === el && int !== (childs.length - 1)) {
+            cl.insertBefore(childs[int + 1], el);
+            break;
+        }
+    }
+}
+
+function save() {
+    const pi = document.getElementById("output");
+    const parent = document.querySelectorAll("#wracked> div> input");
+    pi.style.display = "block";
+    let p = "{";
+    for (let i = 0; i < parent.length; i = i + 2) {
+        const a = parent[i].value;
+        const b = parent[i + 1].value;
+        p += '"' + a + '":"' + b + '"';
+        if (i !== parent.length - 2) {
+            p += ',';
+        }
+    }
+    p += "}";
+    pi.innerHTML = p;
 }
